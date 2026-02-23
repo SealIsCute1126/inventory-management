@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>我的庫存管理系統</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+<h2 class="mb-4">📦 商品庫存實時監控</h2>
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>商品名稱</th>
+        <th>價格</th>
+        <th>剩餘數量</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}">1</td>
+        <td th:text="${product.name}">測試手機</td>
+        <td th:text="${product.price}">100</td>
+        <td th:text="${product.quantity}">10</td>
+    </tr>
+    </tbody>
+</table>
+<p class="text-muted">※ 此頁面資料直接讀取自雲端 MySQL 資料庫</p>
+</body>
+</html>
