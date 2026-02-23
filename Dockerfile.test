@@ -1,0 +1,14 @@
+# 使用輕量的 Python 環境
+FROM python:3.9-slim
+
+# 設定工作目錄
+WORKDIR /test
+
+# 安裝必要套件
+RUN pip install --no-cache-dir requests
+
+# 複製你的測試腳本進去
+COPY test_oversell.py .
+
+# 執行測試
+CMD ["python", "test_oversell.py"]

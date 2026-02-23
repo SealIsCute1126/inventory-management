@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 資料庫服務
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_DATABASE: inventory_db
+      MYSQL_ROOT_PASSWORD: your_password # 請換成你的資料庫密碼
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Java 後端服務
+  app:
+    build: .
+    container_name: inventory-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # 關鍵：這裡的 localhost 要換成服務名稱 db
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/inventory_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+
+  # 測試multithread
+  tester:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: stress-tester
+    depends_on:
+      app:
+        condition: service_started # 等 Java App 啟動後再開始壓測
+    # 如果你想手動跑，可以加上這行讓它啟動後不立即結束
+    # tty: true
