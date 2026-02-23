@@ -7,7 +7,7 @@ services:
     container_name: mysql-db
     environment:
       MYSQL_DATABASE: inventory_db
-      MYSQL_ROOT_PASSWORD: your_password # 請換成你的資料庫密碼
+      MYSQL_ROOT_PASSWORD: 123456 # 請換成你的資料庫密碼
     ports:
       - "3306:3306"
     healthcheck:
